@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import NewUser from './NewUser';
+import ListUsers from './ListUsers';
 
 /*
 This exercise will help you put together and practice all of the concepts you've
@@ -11,12 +13,30 @@ The instructions for this project are located in the `instructions.md` file.
 */
 
 class App extends Component {
+  state = {
+    users: {},
+  };
+  createUser = (userData) => {
+    this.setState((oldValue) => ({
+      users: {
+        ...oldValue.users,
+        [userData.username]: {
+          ...userData,
+          games: Math.floor(Math.random() * 10),
+        },
+      },
+    }));
+  };
+
   render() {
+    const {users} = this.state;
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={logo} className="App-logo" alt="logo"/>
           <h1 className="App-title">ReactND - Coding Practice</h1>
+          <NewUser users={users} create={this.createUser}/>
+          <ListUsers users={users}/>
         </header>
       </div>
     );
